@@ -1,0 +1,49 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+
+.containerOne{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:20vh;
+    background-color: lightblue;
+}
+
+.blueBox{
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    background-color: blue;
+}
+
+.greenBoxContainer{
+    width: 150px;
+    height: 40px;
+    margin: 10px;
+
+}
+
+.greenBox{
+    width: 40px;
+    height: 40px;
+    background-color: green;
+    display: inline-block;
+}
+
+.containerTwo{
+    display: flex;
+    justify-content: center;
+    align-items: end ;
+    height: 80vh;
+    background-color: lightgrey;
+}
+
+.purpleBox{
+
+    width: 400px;
+    height: 400px;
+    background-color: purple;
+}
