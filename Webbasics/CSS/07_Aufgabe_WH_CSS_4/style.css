@@ -1,49 +1,59 @@
 *{
+    box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
+.wrapper{
+    padding: 10px;
+}
 
 .containerOne{
     display: flex;
     justify-content: space-between;
     align-items: center;
     height:20vh;
-    background-color: lightblue;
+    border: solid black;
 }
 
 .blueBox{
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     margin: 10px;
     background-color: blue;
 }
 
 .greenBoxContainer{
-    width: 150px;
-    height: 40px;
+    display: flex;
     margin: 10px;
 
 }
 
+
 .greenBox{
-    width: 40px;
-    height: 40px;
+    position: relative;
+    margin : 10px;
+    width: 100px;
+    height: 100px;
     background-color: green;
-    display: inline-block;
 }
 
-.containerTwo{
-    display: flex;
-    justify-content: center;
-    align-items: end ;
-    height: 80vh;
-    background-color: lightgrey;
+.orangeBox{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: orange;
+    bottom: 0;
+    left: 0;
 }
+
 
 .purpleBox{
-
+    position: absolute;
     width: 400px;
     height: 400px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: purple;
 }
