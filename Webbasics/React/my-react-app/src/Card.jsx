@@ -1,10 +1,15 @@
 function Card(props) {
   return (
-    <div>
-      <div className="flex bg-blue-400 h-40 w-40 justify-center items-center">
-        <h1 className="text-xl">
-          {props.hello} {props.text}
-        </h1>
+    <div className="relative h-[400px] w-[300px] bg-blue-300 border-2 border-black shadow-black">
+      <div className="absoulte top-0 ">
+        {props.isMale ? (
+          <img src="/Male_Avatar.png" alt="Male_Avatar" />
+        ) : (
+          <img src="/Female_Avatar.png" alt="Female_Avatar" />
+        )}
+      </div>
+      <div className="absolute bottom-0 flex justify-center items-center h-[130px] w-full bg-blue-400 shadow-xl">
+        <h1 className="text-xl">{props.name}</h1>
       </div>
     </div>
   );
