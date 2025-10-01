@@ -19,18 +19,26 @@ function Person() {
       {personList.map((person, index) => (
         <div
           key={index}
-          className="relative h-[400px] w-[300px] bg-blue-300 border-2 border-black shadow-black"
+          className="relative h-96 w-80 bg-blue-300 border-2 border-black "
         >
           <div className="absoulte top-0 ">
             {person.isMale ? (
-              <img src="/Male_Avatar.png" alt="Male_Avatar" />
+              <img
+                className="absolute w-fit h-fit"
+                src="/Male_Avatar.png"
+                alt="Male_Avatar"
+              />
             ) : (
-              <img src="/Female_Avatar.png" alt="Female_Avatar" />
+              <img
+                className="absolute w-fit h-fit"
+                src="/Female_Avatar.png"
+                alt="Female_Avatar"
+              />
             )}
           </div>
           <div
             key={index}
-            className="absolute bottom-0 flex justify-center items-center h-[130px] w-full bg-blue-400 shadow-xl"
+            className="absolute bottom-0 flex justify-center items-center h-28 w-full bg-blue-400 "
           >
             <h1 className="text-xl">{person.name}</h1>
           </div>
