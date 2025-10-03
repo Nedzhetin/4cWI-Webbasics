@@ -1,61 +1,89 @@
 import MovieCard from "../components/MovieCard.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPopularMovies, searchMovies } from "../services/api.ts";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const movies = [
-    { id: 1, title: "Inception", release_date: "2020" },
-    { id: 2, title: "John Wick", release_date: "2021" },
-    { id: 3, title: "The Dark Knight", release_date: "2008" },
-    { id: 4, title: "Interstellar", release_date: "2014" },
-    { id: 5, title: "The Matrix", release_date: "1999" },
-    { id: 6, title: "Pulp Fiction", release_date: "1994" },
-    { id: 7, title: "Fight Club", release_date: "1999" },
-    { id: 8, title: "Forrest Gump", release_date: "1994" },
-    { id: 9, title: "The Shawshank Redemption", release_date: "1994" },
-    { id: 10, title: "The Godfather", release_date: "1972" },
-  ];
+  const [movies, setMovies] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    {
-      /*prevent from reloading the page*/
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+        setError(null);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch popular movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPopularMovies();
+  }, []);
+
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); /*prevent from reloading the page*/
+    if (!searchQuery.trim()) return; /*if searchQuery is empty, do nothing*/
+    if (loading) return; /*if already loading, do nothing*/
+    setLoading(true);
+    try {
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to search movies.");
+    } finally {
+      setLoading(false);
     }
-    alert(`Searching for: ${searchQuery}`);
     setSearchQuery("");
   };
 
   return (
-    <div>
+    <div className={"pt-16"}>
       <form
         onSubmit={handleSearch}
-        className="fixed h-20 w-80 right-1/2 transform translate-x-1/2 top-4 flex items-center justify-center"
+        className=" h-28 w-screen top-4 flex items-center justify-center "
       >
         <input
           type="text"
           placeholder="Search"
-          className="border border-gray-300 rounded-lg p-2"
+          className=" border rounded-lg w-1/3 h-2/4 p-2 bg-gray-500 text-white placeholder:text-white"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
           type="submit"
-          className="ml-2 p-2 bg-blue-500 text-white rounded-lg"
+          className="ml-2 p-2 h-1/2 w-28 bg-gray-800 text-white rounded-lg"
         >
           Search
         </button>
       </form>
 
-      <div className="mt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        {movies.map(
-          (movie) =>
-            movie.title.toLowerCase().startsWith(searchQuery.toLowerCase()) && (
-              <MovieCard movie={movie} key={movie.id} />
-            ),
-        )}
-      </div>
+      {error && <div className="text-red-500">{error}</div>}
+
+      {loading ? (
+        <div className="w-screen h-screen flex justify-center items-center align-text-center text-6xl">
+          <h2>loading...</h2>
+        </div>
+      ) : (
+        <div className="mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 p-4 ">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+
+/* {movies.map(
+        (movie) =>
+          movie.title.toLowerCase().includes(searchQuery.toLowerCase()) && (
+            <MovieCard movie={movie} key={movie.id} />
+          ),
+      )} */
 
 export default Home;
