@@ -1,6 +1,20 @@
+import { useMovieContext } from "../context/MovieContext.tsx";
+import Popup from "./Popup.tsx";
+import { useState } from "react";
+
 function MovieCard({ movie }: { movie: any }) {
+  // @ts-ignore
+  const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
+
   function onFavoriteClick() {
-    alert("Favorite!");
+    if (isFavorite(movie.id)) {
+      removeFromFavorites(movie.id);
+      setPopupMessage(`${movie.title} removed from favorites`);
+    } else {
+      addToFavorites(movie);
+      setPopupMessage(`${movie.title} added to favorites`);
+    }
   }
 
   return (
@@ -10,17 +24,28 @@ function MovieCard({ movie }: { movie: any }) {
         alt={movie.title}
       />
       <button
-        className="absolute top-2 right-2 text-3xl hover:text-red-500"
+        className={`absolute top-2 right-2 text-3xl transition-colors ${
+          isFavorite(movie.id)
+            ? "text-red-500"
+            : "text-gray-300 hover:text-red-500"
+        }`}
         onClick={() => onFavoriteClick()}
       >
         ♥
       </button>
       <div className="absolute w-full bottom-0 h-20 bg-gray-800">
-        <h3>{movie.title}</h3>
+        <h3 className="text-xl">{movie.title}</h3>
         <p className="absolute bottom-0">
           {movie.release_date?.replaceAll("-", ".")}
         </p>
       </div>
+      {popupMessage && (
+        <Popup
+          key={popupMessage + movie.id} // force re-mount on message change
+          message={popupMessage}
+          movieID={movie.id}
+        />
+      )}
     </div>
   );
 }

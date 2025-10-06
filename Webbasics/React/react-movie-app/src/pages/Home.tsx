@@ -1,13 +1,14 @@
 import MovieCard from "../components/MovieCard.tsx";
 import { useEffect, useState } from "react";
 import { getPopularMovies, searchMovies } from "../services/api.ts";
+import { useLocation } from "react-router-dom";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const location = useLocation();
   useEffect(() => {
     const loadPopularMovies = async () => {
       try {
@@ -21,8 +22,9 @@ function Home() {
         setLoading(false);
       }
     };
-    loadPopularMovies();
-  }, []);
+
+    if (location.pathname === "/") loadPopularMovies();
+  }, [location]);
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); /*prevent from reloading the page*/
