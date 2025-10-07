@@ -10,9 +10,10 @@ const personList: { name: string; age: number }[] = [
   { name: "Eve", age: 14 },
 ];
 
-greet("Manasseh Luca");
 let over18 = personList.filter((person) => person.age > 18);
 let names = personList.map((person) => person.name);
+
+greet("Manasseh Luca");
 
 console.log(names);
 console.log(over18);
