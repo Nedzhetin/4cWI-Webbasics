@@ -1,4 +1,4 @@
-import { useCounterStore } from "./store.ts";
+import { useCounterStore } from "./stores/countStore.ts";
 import { useEffect } from "react";
 
 const setCount = () => {
