@@ -1,6 +1,10 @@
 let sum = (a: number, b: number): number => a + b;
 let randomNumber = (): number => Math.floor(Math.random() * (10 - 1) + 1);
 let greet = (name: string) => console.log(name);
+let sub = (a: number, b: number): number => a - b;
+
+const animals: string[] = ["dog", "cat", "bird", "fish", "horse"];
+
 
 const personList: { name: string; age: number }[] = [
   { name: "Alice", age: 30 },
@@ -19,3 +23,4 @@ console.log(names);
 console.log(over18);
 console.log(sum(5, 10));
 console.log(randomNumber());
+console.log(sub(10, 5));
