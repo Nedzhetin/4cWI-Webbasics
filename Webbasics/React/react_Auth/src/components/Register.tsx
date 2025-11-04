@@ -52,13 +52,24 @@ function Register() {
     setErrMsg("");
   }, [user, pwd, matchPwd]);
 
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const v1 = USER_REGEX.test(user);
+    const v2 = PWD_REGEX.test(pwd);
+    if (!v1 || !v2) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
+  };
+
   return (
     <section className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 inset-0 items-center w-1/4 h-1/2 bg-gray-100 p-6 rounded-md shadow-lg flex flex-col gap-4">
       <p ref={errRef} className={errMsg ? "" : "hidden"} aria-live="assertive">
         {errMsg}
       </p>
       <h1 className=" text-4xl ">Register</h1>
-      <form className=" flex flex-col w-full">
+      <form onSubmit={handleSubmit} className=" flex flex-col w-full">
         <label className="mb-2" htmlFor="username">
           Username:
           <span className={validName ? "" : "hidden"}>
@@ -128,12 +139,50 @@ function Register() {
           }
         >
           <FontAwesomeIcon icon={faInfoCircle} />
-          4 to 24 characters.
-          <br />
-          Must begin with a letter.
-          <br />
-          Letters, numbers, underscores, hyphens allowed.
+          requeres
+          <ul>
+            <li>Must be 8-24 characters and not begin with a number.</li>
+            <li>Must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.</li>
+            <li>Allowed special characters: !@#$%^&amp;*()_-+=[]{}|;:,.&lt;&gt;?</li>
+          </ul>
         </p>
+
+        <label htmlFor="confirm_pwd">
+          Confirm Password:
+          <span className={validMatch && matchPwd ? "" : "hidden"}>
+            <FontAwesomeIcon icon={faCheck} className="text-green-500 ml-2" />
+          </span>
+          <span className={validMatch || !matchPwd ? "hidden" : ""}>
+            <FontAwesomeIcon icon={faTimes} className="text-red-500 ml-2" />
+          </span>
+          <br />
+        </label>
+        <input
+          className="left-0 w- h-8 border border-gray-300 rounded-md p-2"
+          type="password"
+          id="confirm_pwd"
+          onChange={(e) => setMatchPwd(e.target.value)}
+          required
+          aria-invalid={validMatch ? "false" : "true"}
+          aria-describedby="confirmnote"
+          onFocus={() => setMatchFocus(true)}
+          onBlur={() => setMatchFocus(false)}
+        />
+        <p
+          id="confirmnote"
+          className={
+            matchFocus && !validMatch
+              ? "w-fit h-fit bg-black text-white p-2 rounded-md "
+              : "hidden"
+          }
+        >
+          <FontAwesomeIcon icon={faInfoCircle} />
+          Must match the first password.
+        </p>
+
+        <button disabled={!validName || !validPwd || !validMatch ? true : false} className="bg-blue-500 text-white p-2 mt-10 rounded-md">
+          Sign up
+        </button>
       </form>
     </section>
   );
