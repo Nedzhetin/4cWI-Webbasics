@@ -1,5 +1,3 @@
-import CreateNewPerson from "./CreateNewPerson.jsx";
-import { useState } from "react";
 
 function Sidebar({ setShowCreateNewPerson }) {
   return (

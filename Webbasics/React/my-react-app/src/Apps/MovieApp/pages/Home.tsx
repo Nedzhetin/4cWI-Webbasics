@@ -1,6 +1,6 @@
-import MovieCard from "../components/MovieCard.tsx";
+import MovieCard from "../components/MovieCard";
 import { useEffect, useState } from "react";
-import { getPopularMovies, searchMovies } from "../services/api.ts";
+import { getPopularMovies, searchMovies } from "../services/api";
 import { useLocation } from "react-router-dom";
 
 function Home() {

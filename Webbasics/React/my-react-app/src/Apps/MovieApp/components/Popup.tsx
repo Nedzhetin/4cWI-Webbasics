@@ -1,4 +1,4 @@
-import { useMovieContext } from "../context/MovieContext.tsx";
+import { useMovieContext } from "../context/MovieContext";
 import { useEffect, useState } from "react";
 
 function Popup({ message, movieID }: { message: string; movieID: number }) {

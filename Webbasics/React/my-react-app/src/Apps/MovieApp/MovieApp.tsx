@@ -1,8 +1,8 @@
-import Home from "./pages/Home.tsx";
+import Home from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
-import Favorites from "./pages/Favorites.tsx";
-import NavBar from "./components/NavBar.tsx";
-import { MovieProvider } from "./context/MovieContext.tsx";
+import Favorites from "./pages/Favorites";
+import NavBar from "./components/NavBar";
+import { MovieProvider } from "./context/MovieContext";
 
 function App() {
   return (

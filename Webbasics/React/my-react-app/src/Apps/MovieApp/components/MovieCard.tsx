@@ -1,5 +1,5 @@
-import { useMovieContext } from "../context/MovieContext.tsx";
-import Popup from "./Popup.tsx";
+import { useMovieContext } from "../context/MovieContext";
+import Popup from "./Popup";
 import { useState } from "react";
 
 function MovieCard({ movie }: { movie: any }) {

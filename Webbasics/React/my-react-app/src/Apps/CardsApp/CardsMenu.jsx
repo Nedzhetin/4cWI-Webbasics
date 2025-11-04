@@ -1,5 +1,5 @@
-import Card from "./Card.jsx";
 import Person from "./Person.jsx";
+
 
 function CardsMenu() {
   return (

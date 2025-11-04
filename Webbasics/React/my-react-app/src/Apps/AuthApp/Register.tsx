@@ -4,6 +4,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
@@ -61,10 +62,9 @@ function Register() {
       setErrMsg("Invalid Entry");
       return;
     }
-    console.log("Success");
-    setSuccess(true);
-  };
+    
 
+  };
 
   return (
     <section className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 inset-0 items-center w-1/4 h-1/2 bg-gray-100 p-6 rounded-md shadow-lg flex flex-col gap-4">

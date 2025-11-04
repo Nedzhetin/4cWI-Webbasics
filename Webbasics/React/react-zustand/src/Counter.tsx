@@ -20,6 +20,7 @@ function Counter({ count }: { count: number }) {
         increase Async
       </button>
       <button onClick={decrement}>decrease</button>
+
     </>
   );
 }

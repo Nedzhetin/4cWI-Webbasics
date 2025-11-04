@@ -1,5 +1,5 @@
-import { useMovieContext } from "../context/MovieContext.tsx";
-import MovieCard from "../components/MovieCard.tsx";
+import { useMovieContext } from "../context/MovieContext";
+import MovieCard from "../components/MovieCard";
 
 function Favorites() {
   // @ts-ignore
