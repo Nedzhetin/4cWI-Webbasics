@@ -1,4 +1,4 @@
-import { useCounterStore } from "./stores/countStore.ts";
+import { useCounterStore } from "../stores/countStore.ts";
 import { useEffect } from "react";
 
 const setCount = () => {
@@ -20,7 +20,6 @@ function Counter({ count }: { count: number }) {
         increase Async
       </button>
       <button onClick={decrement}>decrease</button>
-
     </>
   );
 }

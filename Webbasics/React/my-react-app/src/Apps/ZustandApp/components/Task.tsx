@@ -1,5 +1,5 @@
-import { type TaskType } from "./stores/taskStore.ts";
-import { useNameStore } from "./stores/nameStore.ts";
+import { type TaskType } from "../stores/taskStore";
+import { useNameStore } from "../stores/nameStore";
 import { useState } from "react";
 
 function Task({ task }: { task: TaskType }) {

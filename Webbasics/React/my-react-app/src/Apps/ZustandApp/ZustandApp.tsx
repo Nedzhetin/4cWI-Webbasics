@@ -1,11 +1,11 @@
-import { type CounterStore, useCounterStore } from "./stores/countStore.ts";
-import Counter from "./Counter.tsx";
-import { type TaskType, useTaskStore } from "./stores/taskStore.ts";
-import Task from "./Task.tsx";
-import { useEffect } from "react";
-import { useNameStore } from "./stores/nameStore.ts";
+import React, { useEffect } from "react";
+import { useCounterStore, type CounterStore } from "./stores/countStore";
+import { useTaskStore, type TaskType } from "./stores/taskStore";
+import { useNameStore } from "./stores/nameStore";
+import Counter from "./components/Counter";
+import Task from "./components/Task";
 
-function App() {
+function ZustandApp() {
   const count = useCounterStore((state: CounterStore) => state.count);
   const tasks = useTaskStore((state) => state.tasks);
   const addTask = useTaskStore((state) => state.addTask);
@@ -36,4 +36,4 @@ function App() {
   );
 }
 
-export default App;
+export default ZustandApp;
