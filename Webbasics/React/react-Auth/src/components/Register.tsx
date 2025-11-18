@@ -5,9 +5,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
+import axios from "../api/axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@.#$%]).{8,24}$/;
+const REGISTER_URL = "/register";
 
 function Register() {
   const userRef = useRef<HTMLInputElement>(null);
@@ -48,7 +50,7 @@ function Register() {
     setErrMsg("");
   }, [user, pwd, matchPwd]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const v1 = USER_REGEX.test(user);
     const v2 = PWD_REGEX.test(pwd);
@@ -56,8 +58,20 @@ function Register() {
       setErrMsg("Invalid Entry");
       return;
     }
-    console.log("Success!");
-    setSuccess(true);
+    try {
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({ user, pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        },
+      );
+      console.log(response.data);
+      setSuccess(true);
+    } catch (err) {
+      setErrMsg("Registration Failed");
+    }
   };
 
   return (
@@ -108,7 +122,7 @@ function Register() {
                 onFocus={() => setUserFocus(true)}
                 onBlur={() => setUserFocus(false)}
               />
-              <p
+              <div
                 id="uidnote"
                 className={`absolute top-full left-0 mt-2 w-64 bg-black text-white p-2 rounded-md text-sm z-10 ${
                   userFocus && user && !validName ? "" : "hidden"
@@ -120,7 +134,7 @@ function Register() {
                 Must begin with a letter.
                 <br />
                 Letters, numbers, underscores, hyphens allowed.
-              </p>
+              </div>
             </div>
 
             {/* Password */}
@@ -151,7 +165,7 @@ function Register() {
                 onFocus={() => setPwdFocus(true)}
                 onBlur={() => setPwdFocus(false)}
               />
-              <p
+              <div
                 id="pwdnote"
                 className={`absolute top-full left-0 mt-2 w-72 bg-black text-white p-2 rounded-md text-sm z-10 ${
                   pwdFocus && !validPwd ? "" : "hidden"
@@ -164,7 +178,7 @@ function Register() {
                   <li>1 uppercase, 1 lowercase, 1 number, 1 special char</li>
                   <li>Allowed: !@#$%^&amp;*()_-+=[]{}|;:,.&lt;&gt;?</li>
                 </ul>
-              </p>
+              </div>
             </div>
 
             {/* Confirm Password */}
@@ -195,7 +209,7 @@ function Register() {
                 onFocus={() => setMatchFocus(true)}
                 onBlur={() => setMatchFocus(false)}
               />
-              <p
+              <div
                 id="confirmnote"
                 className={`absolute top-full left-0 mt-2 w-64 bg-black text-white p-2 rounded-md text-sm z-10 ${
                   matchFocus && !validMatch ? "" : "hidden"
@@ -203,7 +217,7 @@ function Register() {
               >
                 <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
                 Must match the first password.
-              </p>
+              </div>
             </div>
 
             <button
