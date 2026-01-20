@@ -4,7 +4,11 @@ import Cookies from "universal-cookie";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 const cookies = new Cookies();
 
-const Auth = () => {
+interface AuthProps {
+  setIsAuthenticated: (value: boolean) => void;
+}
+
+const Auth = ({ setIsAuthenticated }: AuthProps) => {
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -21,6 +25,7 @@ const Auth = () => {
         { merge: true },
       );
       cookies.set("auth-token", result.user.refreshToken);
+      setIsAuthenticated(true);
     } catch (err) {
       console.error(err);
     }
