@@ -1,11 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../firebase/firebase.ts";
+import firebase from "firebase/compat/app";
+import { auth } from "../firebase/firebase.ts";
 
 function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
   const [newMessage, setNewMessage] = useState("");
+  const messagesCollection = collection(db, "messages");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const q = query(
+      messagesCollection,
+      where("from", "==", selectedUser || ""),
+    );
+    onSnapshot(q, (snapshot) => {
+      console.log("NEW MESSAGE");
+    });
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newMessage.trim() === "") return;
+
+    await addDoc(messagesCollection, {
+      text: newMessage,
+      from: auth.currentUser?.displayName || "Anonymous",
+      to: selectedUser,
+      timestamp: serverTimestamp(),
+    });
+
+    setNewMessage("");
   };
 
   return (
@@ -21,6 +52,7 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
               type="text"
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
+              value={newMessage}
               className="h-16 w-3/4 absolute bottom-2 left-1/2 transform -translate-x-1/2 border border-gray-300 rounded-md p-2 text-2xl"
             />
           </form>

@@ -4,4 +4,5 @@ import { RealAPI } from "./RealAPI";
 
 let api: API = new FakeAPI();
 api = new RealAPI();
+
 console.log(api.getAllPersons());

@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 
 async function tryGettingAllUsers(req, res) {
   try {
-    const snap = await getDocs(collection(db, "Users"));
+    const snap = await getDocs(collection(db, "users"));
     const users = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     res.json(users);
   } catch (err) {

@@ -15,24 +15,23 @@ function Sidebar({
         <div className="space-y-3">
           {users.map((user) => (
             <div
-              key={user.id}
+              key={user.uid}
               className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition"
             >
               <div className="flex items-center space-x-3">
                 <div className="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-semibold">
-                  {user.user?.charAt(0).toUpperCase()}
+                  {user.name?.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <div className="text-lg font-medium text-gray-700">
-                    {user.user}
+                    {user.name}
                   </div>
-                  <div className="text-xs text-gray-400">ID: {user.id}</div>
                 </div>
               </div>
 
               <button
-                onClick={() => handleChatClick(user.user)}
-                aria-label={`Chat with ${user.user}`}
+                onClick={() => handleChatClick(user.name)}
+                aria-label={`Chat with ${user.name}`}
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-500 to-indigo-400 hover:from-indigo-600 hover:to-indigo-500 text-white text-sm font-medium py-2 px-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-300"
               >
                 <svg
