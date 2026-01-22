@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   addDoc,
   collection,
@@ -6,11 +6,12 @@ import {
   onSnapshot,
   query,
   where,
-  orderBy,
   type Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase.ts";
 import { auth } from "../firebase/firebase.ts";
+import EmojiPicker, { type EmojiClickData } from "emoji-picker-react";
+import MessageBubble from "./MessageBubble.tsx";
 
 interface Message {
   id: string;
@@ -24,9 +25,14 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesCollection = collection(db, "messages");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   // 🔽 auto-scroll anchor
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const onEmojiClick = (emojiData: EmojiClickData) => {
+    setNewMessage((prev) => prev + emojiData.emoji);
+  };
 
   useEffect(() => {
     const currentUser =
@@ -68,7 +74,7 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
   }, [selectedUser]);
 
   // 🔥 AUTO-SCROLL WHEN MESSAGES CHANGE
-  useEffect(() => {
+  useLayoutEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -101,40 +107,14 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
 
           {/* messages */}
           <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-            {messages.map((message) => {
-              const currentUser =
-                auth.currentUser?.displayName || auth.currentUser?.email || "";
-              const isMine = message.from === currentUser;
-
-              return (
-                <div
-                  key={message.id}
-                  className={`flex ${isMine ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[70%] px-4 py-3 rounded-2xl shadow-sm text-sm leading-relaxed break-words ${
-                      isMine
-                        ? "bg-blue-600 text-white rounded-br-none"
-                        : "bg-gray-100 text-gray-900 rounded-bl-none"
-                    }`}
-                  >
-                    <div className="text-[11px] font-medium text-gray-500 mb-1">
-                      {message.from}
-                    </div>
-
-                    <div>{message.text}</div>
-
-                    <div className="text-[10px] text-gray-400 mt-1 text-right select-none">
-                      {message.timestamp
-                        ? new Date(
-                            message.timestamp.toMillis(),
-                          ).toLocaleTimeString()
-                        : ""}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {messages.map((m) => (
+              <MessageBubble
+                key={m.id}
+                text={m.text}
+                from={m.from}
+                timestamp={m.timestamp}
+              />
+            ))}
 
             {/* 🔽 scroll target */}
             <div ref={messagesEndRef} />
@@ -145,7 +125,7 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
             onSubmit={handleSubmit}
             className="px-6 py-4 border-t border-gray-200 bg-white"
           >
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center relative">
               <input
                 type="text"
                 value={newMessage}
@@ -159,6 +139,21 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
               >
                 Send
               </button>
+              <div className="absolute bottom-1/4 right-28 ">
+                <button
+                  type="button"
+                  onClick={() => setShowEmojiPicker((v) => !v)}
+                  className="text-2xl"
+                >
+                  😊
+                </button>
+
+                {showEmojiPicker && (
+                  <div className="absolute bottom-14 right-0 z-50">
+                    <EmojiPicker onEmojiClick={onEmojiClick} />
+                  </div>
+                )}
+              </div>
             </div>
           </form>
         </div>
