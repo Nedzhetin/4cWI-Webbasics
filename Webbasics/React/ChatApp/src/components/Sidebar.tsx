@@ -22,6 +22,7 @@ function Sidebar({
                   key={user.uid}
                   name={user.name}
                   handleChatClick={handleChatClick}
+                  newMessageSeen={true}
                 />
               ),
           )}

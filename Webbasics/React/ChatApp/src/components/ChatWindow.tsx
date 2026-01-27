@@ -27,7 +27,10 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
   const messagesCollection = collection(db, "messages");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-  // 🔽 auto-scroll anchor
+  const currentUser =
+    auth.currentUser?.displayName || auth.currentUser?.email || null;
+
+  //auto-scroll anchor
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const onEmojiClick = (emojiData: EmojiClickData) => {
@@ -35,9 +38,6 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
   };
 
   useEffect(() => {
-    const currentUser =
-      auth.currentUser?.displayName || auth.currentUser?.email || null;
-
     if (!selectedUser || !currentUser) {
       setMessages([]);
       return;
@@ -94,7 +94,7 @@ function ChatWindow({ selectedUser }: { selectedUser: string | null }) {
   };
 
   return (
-    // 🔒 page height locked
+    // page height locked
     <main className="flex-1 h-screen bg-gray-100 p-6 overflow-hidden">
       {selectedUser ? (
         <div className="h-full flex flex-col bg-white rounded-xl border border-gray-200 shadow-sm">

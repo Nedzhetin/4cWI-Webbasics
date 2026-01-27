@@ -1,13 +1,18 @@
 interface Props {
   name: string;
   handleChatClick: (userName: string) => void;
+  newMessageSeen: boolean;
 }
 
-export default function UserItem({ name, handleChatClick }: Props) {
+export default function UserItem({
+  name,
+  handleChatClick,
+  newMessageSeen,
+}: Props) {
   return (
     <div
       onClick={() => handleChatClick(name)}
-      className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition"
+      className={`flex items-center justify-between p-3 bg-gray-50 border border-gray-200 ${newMessageSeen && "border-blue-500"} rounded-lg hover:bg-gray-100 transition`}
     >
       <div className="flex items-center space-x-3">
         <div className="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-semibold">
