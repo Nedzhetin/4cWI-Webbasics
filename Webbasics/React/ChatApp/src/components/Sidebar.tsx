@@ -24,6 +24,7 @@ function Sidebar({
     return () => document.removeEventListener("click", handleDocClick);
   }, []);
 
+  console.log("Current user photoURL:", auth.currentUser?.photoURL);
   return (
     <aside className="w-80 relative h-screen bg-white shadow-lg rounded-r-xl p-4 overflow-y-auto">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">Users</h2>
