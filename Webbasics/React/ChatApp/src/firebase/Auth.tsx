@@ -20,6 +20,7 @@ const Auth = ({ setIsAuthenticated }: AuthProps) => {
           name: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
+          friends: [],
           createdAt: serverTimestamp(),
         },
         { merge: true },

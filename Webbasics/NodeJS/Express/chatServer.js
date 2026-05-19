@@ -66,6 +66,10 @@ app.get("/users", async (req, res) => {
   await tryGettingAllUsers(req, res);
 });
 
+app.get("/friends", async (req, res) => {
+  await tryGettingAllUsers(req, res);
+});
+
 app.post("/register", async (req, res) => {
   await tryRegisterUser(req, res);
 });

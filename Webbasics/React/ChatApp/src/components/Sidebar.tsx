@@ -2,12 +2,13 @@ import type { User } from "./MainPage.tsx";
 import { auth } from "../firebase/firebase.ts";
 import UserItem from "./UserItem.tsx";
 import { useState, useRef, useEffect } from "react";
+import { TiUserAdd } from "react-icons/ti";
 
 function Sidebar({
-  users,
+  friends,
   handleChatClick,
 }: {
-  users: User[];
+  friends: User[];
   handleChatClick: (userName: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,11 +28,13 @@ function Sidebar({
   console.log("Current user photoURL:", auth.currentUser?.photoURL);
   return (
     <aside className="w-80 relative h-screen bg-white shadow-lg rounded-r-xl p-4 overflow-y-auto">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Users</h2>
-
-      {users.length > 0 ? (
+      <div className="relative w-full h-20  ">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Friends</h2>
+        <TiUserAdd className="absolute top-1 right-4 size-7 hover:scale-110" />
+      </div>
+      {friends.length > 0 ? (
         <div className="space-y-3">
-          {users.map(
+          {friends.map(
             (user) =>
               user.name !== auth.currentUser?.displayName && (
                 <UserItem
